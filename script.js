@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const resetBtn = document.getElementById('reset-btn');
     const birthdayVideo = document.getElementById('birthday-video');
     const videoOverlay = document.getElementById('video-overlay');
+    const catImg = document.getElementById('cat-img');
 
     // Confetti Palette: Green/Ivy theme mixed with birthday gold and rose-pinks
     const ivyConfettiColors = [
@@ -394,6 +395,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Fade out the cake SVG and reveal/play the video (muted, autoplays) 2.5s after blowout
         activeTimeouts.push(setTimeout(() => {
             cakeSvgWrapper.classList.add('fade-out-cake');
+            // Also fade out the cat
+            if (catImg) catImg.style.opacity = '0';
             if (videoOverlay && birthdayVideo) {
                 videoOverlay.style.display = 'flex';
                 videoOverlay.style.opacity = '0';
@@ -445,6 +448,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (loader) loader.style.display = 'flex';
         const playBtn = document.getElementById('video-play-btn');
         if (playBtn) playBtn.style.display = 'none';
+        // Restore cat
+        if (catImg) catImg.style.opacity = '1';
         cakeSvgWrapper.classList.remove('fade-out-cake');
 
         // Remove injected SVG cake (will be re-injected on next open)
