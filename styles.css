@@ -1,0 +1,650 @@
+/* Root variables for styling consistency */
+:root {
+    --bg-dark: #080710;
+    --card-pink: #f2a0b3;
+    --card-pink-light: #f7bfcc;
+    --border-white: #ffffff;
+    --text-dark: #4a2834;
+    --ivy-green-dark: #1b4332;
+    --ivy-green-mid: #2d6a4f;
+    --ivy-green-light: #52b788;
+    --gold: #f6bd60;
+    --transition-smooth: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    --bounce-timing: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Reset and general styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(160deg, var(--card-pink) 0%, var(--card-pink-light) 100%);
+    font-family: 'Outfit', sans-serif;
+    min-height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+    position: relative;
+}
+
+/* Starfield canvas overlay */
+#starfield {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Ambient Music Mute/Unmute Button */
+.audio-btn {
+    position: fixed;
+    top: 25px;
+    right: 25px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    z-index: 100;
+    transition: var(--transition-smooth);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.audio-btn:hover {
+    transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.audio-btn.playing {
+    color: var(--gold);
+    border-color: var(--gold);
+    animation: pulseGlow 2s infinite;
+}
+
+@keyframes pulseGlow {
+    0% { box-shadow: 0 0 0 0 rgba(246, 189, 96, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(246, 189, 96, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(246, 189, 96, 0); }
+}
+
+/* Center Envelope Wrapper */
+.envelope-wrapper {
+    position: relative;
+    width: 90%;
+    max-width: 500px;
+    height: 680px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+/* Opening Cover (Envelope) Style */
+.envelope {
+    width: 100%;
+    height: 420px;
+    background: linear-gradient(135deg, #ffffff, var(--card-pink-light));
+    border: 2px solid var(--border-white);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 30px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(74, 40, 52, 0.15), inset 0 0 30px rgba(255, 255, 255, 0.2);
+    transition: var(--transition-smooth);
+    transform-style: preserve-3d;
+}
+
+.envelope::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.envelope:hover {
+    transform: translateY(-8px) scale(1.02);
+    border-color: var(--border-white);
+    box-shadow: 0 30px 60px rgba(74, 40, 52, 0.25), 0 0 20px rgba(255, 255, 255, 0.4);
+}
+
+.envelope-content h2 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+}
+
+.envelope-content p {
+    font-size: 1.1rem;
+    color: var(--text-dark);
+    opacity: 0.85;
+    font-weight: 400;
+    margin-bottom: 30px;
+}
+
+/* Sparkle Icon */
+.sparkle-icon {
+    font-size: 3rem;
+    color: var(--gold);
+    margin-bottom: 20px;
+    animation: sparkleSpin 4s linear infinite;
+    text-shadow: 0 0 10px rgba(246, 189, 96, 0.6);
+}
+
+@keyframes sparkleSpin {
+    0% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(180deg) scale(1.1); }
+    100% { transform: rotate(360deg) scale(1); }
+}
+
+/* Open Card Button */
+.open-btn {
+    background: linear-gradient(90deg, #ff85a1, #f15bb5);
+    color: white;
+    border: none;
+    padding: 14px 35px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(241, 91, 181, 0.4);
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.3s ease;
+}
+
+.open-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(241, 91, 181, 0.6);
+}
+
+.open-btn:active {
+    transform: translateY(1px);
+}
+
+/* Envelope Decorations */
+.env-deco {
+    position: absolute;
+    color: var(--text-dark);
+    opacity: 0.45;
+}
+
+.env-star-1 { top: 40px; left: 50px; font-size: 1.5rem; animation: floatDe 3s infinite ease-in-out; }
+.env-star-2 { bottom: 60px; right: 50px; font-size: 1.2rem; animation: floatDe 4s infinite ease-in-out 1s; }
+.env-star-3 { top: 70px; right: 70px; font-size: 1rem; animation: floatDe 2.5s infinite ease-in-out 0.5s; }
+
+@keyframes floatDe {
+    0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.45; }
+    50% { transform: translateY(-10px) rotate(45deg); opacity: 0.75; }
+}
+
+/* Hide animations */
+.envelope.fade-out {
+    opacity: 0;
+    transform: scale(0.8) rotateY(90deg);
+    pointer-events: none;
+}
+
+/* Birthday Greeting Card Style */
+.birthday-card {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: var(--border-white);
+    border-radius: 20px;
+    padding: 12px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    transform: scale(0.9) translateY(50px);
+    transition: var(--transition-smooth);
+}
+
+.birthday-card.fade-in {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Inner Pink Card Canvas */
+.card-inner {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(160deg, var(--card-pink) 0%, var(--card-pink-light) 100%);
+    border-radius: 12px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 20px 20px 30px;
+    overflow: hidden;
+}
+
+/* Reset / Replay Button */
+.reset-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.25);
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-dark);
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+    z-index: 30;
+}
+
+.reset-btn:hover {
+    transform: rotate(180deg);
+    background: rgba(255, 255, 255, 0.4);
+}
+
+/* Sparkly Background Bits on Card */
+.card-sparkle {
+    position: absolute;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1.2rem;
+}
+
+.cs-1 { top: 25px; left: 30px; animation: floatDe 3.5s infinite ease-in-out; }
+.cs-2 { bottom: 25%; right: 40px; animation: floatDe 4.5s infinite ease-in-out 1.5s; }
+
+
+/* ===============================================
+   CAKE AREA - SMIL SVG ANIMATED CAKE
+   =============================================== */
+.cake-container {
+    width: 100%;
+    flex: 1;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    min-height: 0;
+}
+
+/* SVG Cake Wrapper — positioning parent for the candle */
+.cake-svg-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    transition: opacity 0.8s ease;
+}
+
+.cake-svg-wrapper.fade-out-cake {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.cake-svg-wrapper svg {
+    height: 100%;
+    width: auto;
+    max-width: 100%;
+}
+
+/* Birthday Video Style */
+.birthday-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 12px;
+    opacity: 0;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    transform: scale(0.95);
+    z-index: 20;
+    pointer-events: none;
+}
+
+.birthday-video.revealed {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+}
+
+/* ===============================================
+   CANDLE STICK & FLAMES (velas / fuego)
+   Candle top y≈411 in SVG coords.
+   viewBox 0 350 200 150 → (411-350)/150 = 40.7% from top = 59.3% from bottom
+   =============================================== */
+.velas {
+    position: absolute;
+    bottom: 59%;
+    left: 50%;
+    margin-left: -2.5px; /* centers the 5px wide candle stick */
+    width: 5px;
+    height: 35px;
+    background: repeating-linear-gradient(
+        45deg,
+        #ffffff,
+        #ffffff 6px,
+        rgba(255, 99, 132, 0.75) 6px,
+        rgba(255, 99, 132, 0.75) 10px
+    );
+    border-radius: 3px;
+    z-index: 15;
+    opacity: 0;
+    cursor: pointer;
+    transform: translateY(-150px) scaleY(1.5);
+    transition: opacity 0.3s ease;
+}
+
+/* Expanded invisible click target overlay for tap reliability */
+.velas::before {
+    content: "";
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    right: -15px;
+    bottom: -15px;
+    background: transparent;
+    cursor: pointer;
+    z-index: 20;
+}
+
+/* Drops candle onto the cake when lit class is added */
+.velas.lit {
+    opacity: 1;
+    animation: candleDrop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes candleDrop {
+    0% {
+        transform: translateY(-150px) scaleY(1.5);
+        opacity: 0;
+    }
+    70% {
+        transform: translateY(3px) scaleY(0.85);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(0) scaleY(1);
+        opacity: 1;
+    }
+}
+
+/* The flame layers */
+.fuego {
+    border-radius: 100%;
+    position: absolute;
+    top: -18px; /* sits exactly at the tip of the 35px candle stick */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6.6px;
+    height: 18px;
+    transform-origin: bottom center;
+    pointer-events: none; /* click events pass through to the parent velas */
+}
+
+/* Staggered flame flickering layers for realistic heat ripples */
+.fuego:nth-child(1) { background: rgba(254, 248, 97, 0.5); animation: fuego 2s infinite; }
+.fuego:nth-child(2) { background: rgba(255, 100, 0, 0.2); animation: fuego 1.5s infinite; }
+.fuego:nth-child(3) { background: rgba(254, 248, 97, 0.4); animation: fuego 1s infinite; }
+.fuego:nth-child(4) { background: rgba(255, 100, 0, 0.25); animation: fuego 0.5s infinite; }
+.fuego:nth-child(5) { background: rgba(254, 248, 97, 0.3); animation: fuego 0.2s infinite; }
+
+@keyframes fuego {
+    0%, 100% {
+        background: rgba(254, 248, 97, 0.5);
+        transform: translateX(-50%) translateY(0) scale(1);
+        box-shadow: 0 0 8px rgba(254, 248, 97, 0.8), 0 -3px 10px rgba(255, 100, 0, 0.4);
+    }
+    50% {
+        background: rgba(255, 50, 0, 0.2);
+        transform: translateX(-50%) translateY(-10px) scale(0);
+        box-shadow: 0 0 3px rgba(255, 100, 0, 0.3);
+    }
+}
+
+/* Extinguished state */
+.velas.blown-out .fuego {
+    opacity: 0;
+    transform: translateX(-50%) scale(0);
+    transition: all 0.4s ease;
+    animation: none; /* stops flicker */
+}
+
+
+/* ===============================================
+   TYPOGRAPHY & BRANDING
+   =============================================== */
+.text-content {
+    text-align: center;
+    width: 100%;
+    z-index: 10;
+    flex-shrink: 0;
+}
+
+.main-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.85rem;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--text-dark);
+    letter-spacing: 0.5px;
+    opacity: 0;
+    transform: translateY(15px);
+}
+
+.birthday-card.fade-in .main-title {
+    animation: slideUpFade 0.8s ease forwards;
+    animation-delay: 7.2s;
+}
+
+/* Creative "Ivy" Name Styling */
+.name-container {
+    position: relative;
+    height: 75px;
+    margin: 3px 0 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.name-ivy {
+    font-family: 'Dancing Script', cursive;
+    font-size: 3.8rem;
+    background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 50%, #40916c 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.4);
+    opacity: 0;
+    transform: scale(0.9);
+    z-index: 5;
+    position: relative;
+}
+
+.birthday-card.fade-in .name-ivy {
+    animation: zoomInIvy 0.8s var(--bounce-timing) forwards;
+    animation-delay: 7.6s;
+}
+
+@keyframes zoomInIvy {
+    0% { opacity: 0; transform: scale(0.8); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+/* Ivy Vines SVG overlay */
+.ivy-vine-svg {
+    position: absolute;
+    width: 250px;
+    height: 80px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 4;
+}
+
+/* Vine grow animation */
+.birthday-card.fade-in #vine-path {
+    animation: growVine 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation-delay: 8.0s;
+}
+
+@keyframes growVine {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+/* Leaves sprout animation */
+.ivy-leaf {
+    opacity: 0;
+    transform-origin: center;
+}
+
+.birthday-card.fade-in .leaf-1 { animation: sproutLeaf 0.6s var(--bounce-timing) forwards; animation-delay: 8.4s; }
+.birthday-card.fade-in .leaf-2 { animation: sproutLeaf 0.6s var(--bounce-timing) forwards; animation-delay: 8.7s; }
+.birthday-card.fade-in .leaf-3 { animation: sproutLeaf 0.6s var(--bounce-timing) forwards; animation-delay: 9.0s; }
+.birthday-card.fade-in .leaf-4 { animation: sproutLeaf 0.6s var(--bounce-timing) forwards; animation-delay: 9.3s; }
+
+@keyframes sproutLeaf {
+    0% { opacity: 0; transform: scale(0) rotate(-45deg); }
+    100% { opacity: 1; transform: scale(1.1); }
+}
+
+
+/* --- Interactive Blow Instruction / Wish message box --- */
+.wish-message {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem; /* fits 3 lines perfectly */
+    color: var(--text-dark);
+    font-weight: 500;
+    line-height: 1.5;
+    margin-top: 12px;
+    opacity: 0;
+    transform: translateY(15px);
+}
+
+/* Fades in after Ivy vine and leaves complete growth */
+.birthday-card.fade-in .wish-message {
+    animation: slideUpFade 0.8s ease forwards;
+    animation-delay: 9.6s;
+}
+
+.instruction-box {
+    margin-top: 15px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 0 10px;
+    width: 100%;
+}
+
+.wish-instruction {
+    font-size: 0.85rem;
+    color: var(--text-dark);
+    opacity: 0;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.45);
+    padding: 6px 16px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    transform: translateY(10px);
+}
+
+/* Fades in together with the wish message poem */
+.birthday-card.fade-in .wish-instruction.active {
+    opacity: 0.95;
+    transform: translateY(0);
+    animation: subtleFloat 2s infinite ease-in-out alternate, slideUpFade 0.8s ease forwards;
+    animation-delay: 0s, 10.0s; /* floats immediately once visible at 10.0s */
+}
+
+@keyframes subtleFloat {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-4px); }
+}
+
+.animate-blow-icon {
+    animation: blowWind 1.5s infinite ease-in-out;
+}
+
+@keyframes blowWind {
+    0%, 100% { transform: translateX(0) scale(1); opacity: 0.8; }
+    50% { transform: translateX(5px) scale(1.1); opacity: 1; }
+}
+
+
+/* General Helper Animations */
+@keyframes slideUpFade {
+    0% { opacity: 0; transform: translateY(15px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive tweaks */
+@media (max-height: 750px) {
+    .envelope-wrapper {
+        height: 580px;
+    }
+    .envelope {
+        height: 380px;
+    }
+    .name-ivy {
+        font-size: 3rem;
+    }
+    .main-title {
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .envelope-wrapper {
+        max-width: 98%;
+    }
+    .velas {
+        gap: 10px;
+    }
+    .fuego {
+        width: 7px;
+        height: 18px;
+    }
+}
