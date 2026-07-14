@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ====================================================
     const cakeSvgTemplate = `
     <svg version="1.1" viewBox="0 350 200 150"
-         xml:space="preserve" style="overflow:visible;">
+         xml:space="preserve" style="overflow:visible; position:relative; z-index:2;">
 
         <!-- LAYER 1 (bottom cake sponge) -->
         <path fill="#a88679" d="M173.667,21.571c-33.174,0-111.467,0-147.334,0c-4,0-4-16.002,0-16.002c39.836,0,105.982,0,147.334,0
