@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const birthdayVideo = document.getElementById('birthday-video');
     const videoOverlay = document.getElementById('video-overlay');
     const catImg = document.getElementById('cat-img');
+    const blowText = document.getElementById('blow-text');
 
     // Confetti Palette: Green/Ivy theme mixed with birthday gold and rose-pinks
     const ivyConfettiColors = [
@@ -307,10 +308,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 activeTimeouts.push(setTimeout(() => {
                     velas.classList.add('lit');
 
-                    // Animate the cat peeking from behind the cake layer
+                    // Animate the cat + "blow this!" text peeking from behind the cake layer
                     if (catImg) {
                         catImg.style.opacity = '1';
                         catImg.style.transform = 'translateX(-95%) translateY(0)';
+                    }
+                    if (blowText) {
+                        blowText.style.opacity = '1';
+                        blowText.style.transform = 'translateX(-130%) translateY(0)';
                     }
 
                     // Celebratory confetti burst when candles light up
@@ -401,8 +406,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // Fade out the cake SVG and reveal/play the video (muted, autoplays) 2.5s after blowout
         activeTimeouts.push(setTimeout(() => {
             cakeSvgWrapper.classList.add('fade-out-cake');
-            // Also fade out the cat
+            // Also fade out the cat and blow-text
             if (catImg) catImg.style.opacity = '0';
+            if (blowText) blowText.style.opacity = '0';
             if (videoOverlay && birthdayVideo) {
                 videoOverlay.style.display = 'flex';
                 videoOverlay.style.opacity = '0';
@@ -454,10 +460,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (loader) loader.style.display = 'flex';
         const playBtn = document.getElementById('video-play-btn');
         if (playBtn) playBtn.style.display = 'none';
-        // Restore cat to hidden position
+        // Restore cat and blow-text to hidden position
         if (catImg) {
             catImg.style.opacity = '0';
             catImg.style.transform = 'translateX(-95%) translateY(30px)';
+        }
+        if (blowText) {
+            blowText.style.opacity = '0';
+            blowText.style.transform = 'translateX(-130%) translateY(10px)';
         }
         cakeSvgWrapper.classList.remove('fade-out-cake');
 
