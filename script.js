@@ -310,7 +310,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Animate the cat peeking from behind the cake layer
                     if (catImg) {
                         catImg.style.opacity = '1';
-                        catImg.style.transform = 'translateX(-60%) translateY(0)';
+                        catImg.style.transform = 'translateX(-95%) translateY(0)';
                     }
 
                     // Celebratory confetti burst when candles light up
@@ -457,7 +457,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Restore cat to hidden position
         if (catImg) {
             catImg.style.opacity = '0';
-            catImg.style.transform = 'translateX(-60%) translateY(30px)';
+            catImg.style.transform = 'translateX(-95%) translateY(30px)';
         }
         cakeSvgWrapper.classList.remove('fade-out-cake');
 
