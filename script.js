@@ -9,8 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const instructionBlow = document.getElementById('instruction-blow');
     const wishMessage = document.getElementById('wish-message');
     const resetBtn = document.getElementById('reset-btn');
-    const soundToggle = document.getElementById('sound-toggle');
-    const bgMusic = document.getElementById('bg-music');
     const birthdayVideo = document.getElementById('birthday-video');
     const videoOverlay = document.getElementById('video-overlay');
 
@@ -20,50 +18,10 @@ document.addEventListener('DOMContentLoaded', () => {
         '#ff85a1', '#ffb703', '#ffffff'
     ];
 
-    let audioContextAllowed = false;
-    let isMusicPlaying = false;
     let candleBlown = false;
     let activeTimeouts = [];
 
-    // ====================================================
-    // SOUND EFFECTS MANAGER (HTML5 Audio Elements)
-    // ====================================================
-    class SoundSynthesizer {
-        playChime(type = 'open') {
-            try {
-                const audio = document.getElementById(type === 'open' ? 'sfx-open' : 'sfx-celebrate');
-                if (audio) {
-                    audio.currentTime = 0;
-                    audio.play().catch(err => console.log("SFX play failed:", err));
-                }
-            } catch (e) {
-                console.log("SFX playback failed:", e);
-            }
-        }
-        playThud() {
-            try {
-                const audio = document.getElementById('sfx-thud');
-                if (audio) {
-                    audio.currentTime = 0;
-                    audio.play().catch(err => console.log("SFX play failed:", err));
-                }
-            } catch (e) {
-                console.log("SFX playback failed:", e);
-            }
-        }
-        playWhoosh() {
-            try {
-                const audio = document.getElementById('sfx-whoosh');
-                if (audio) {
-                    audio.currentTime = 0;
-                    audio.play().catch(err => console.log("SFX play failed:", err));
-                }
-            } catch (e) {
-                console.log("SFX playback failed:", e);
-            }
-        }
-    }
-    const synth = new SoundSynthesizer();
+    // SoundSynthesizer disabled — no audio
 
     // ====================================================
     // SVG CAKE TEMPLATE (SMIL path-morphing animation)
@@ -306,43 +264,11 @@ document.addEventListener('DOMContentLoaded', () => {
     animateStars();
 
     // ====================================================
-    // 2. AMBIENT SOUND SYSTEM
-    // ====================================================
-    soundToggle.addEventListener('click', () => {
-        audioContextAllowed = true;
-        toggleMusic();
-    });
-
-    function toggleMusic() {
-        if (isMusicPlaying) {
-            bgMusic.pause();
-            soundToggle.innerHTML = '<i class="fas fa-volume-mute"></i>';
-            soundToggle.classList.remove('playing');
-            isMusicPlaying = false;
-        } else {
-            bgMusic.play().then(() => {
-                soundToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
-                soundToggle.classList.add('playing');
-                isMusicPlaying = true;
-            }).catch(err => {
-                console.log("Audio play blocked by browser policies:", err);
-            });
-        }
-    }
-
-    // ====================================================
     // 3. OPEN CARD SEQUENCE
     // ====================================================
     function openCard() {
-        // Play envelope slide-open sound
-        synth.playChime('open');
 
         envelope.classList.add('fade-out');
-
-        if (!isMusicPlaying && !audioContextAllowed) {
-            audioContextAllowed = true;
-            toggleMusic();
-        }
 
         activeTimeouts.push(setTimeout(() => {
             envelope.classList.add('hidden');
@@ -365,24 +291,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Mini confetti puffs and thud sounds as each layer lands
                 activeTimeouts.push(setTimeout(() => {
-                    synth.playThud();
                     confetti({ particleCount: 8, spread: 25, origin: { x: 0.5, y: 0.72 }, colors: ivyConfettiColors, gravity: 1.5, scalar: 0.7 });
                 }, 1300)); // bizcocho_1 lands
 
                 activeTimeouts.push(setTimeout(() => {
-                    synth.playThud();
                     confetti({ particleCount: 6, spread: 20, origin: { x: 0.5, y: 0.68 }, colors: ivyConfettiColors, gravity: 1.5, scalar: 0.6 });
                 }, 2300)); // bizcocho_2 lands
 
                 activeTimeouts.push(setTimeout(() => {
-                    synth.playThud();
                     confetti({ particleCount: 6, spread: 20, origin: { x: 0.5, y: 0.63 }, colors: ivyConfettiColors, gravity: 1.5, scalar: 0.6 });
                 }, 3100)); // bizcocho_3 lands
 
                 // Light the candle flames after the cream finishes dripping
                 activeTimeouts.push(setTimeout(() => {
                     velas.classList.add('lit');
-                    synth.playChime('celebrate');
 
                     // Celebratory confetti burst when candles light up
                     confetti({
@@ -458,14 +380,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (candleBlown) return;
         candleBlown = true;
 
-        // Blow out the flames
+        // Blow out the flames (no audio)
         velas.classList.add('blown-out');
-
-        // Synthesized "blow/whoosh" sound and celebratory chime arpeggio
-        synth.playWhoosh();
-        activeTimeouts.push(setTimeout(() => {
-            synth.playChime('celebrate');
-        }, 150));
 
         // Swap instructions for the final personal birthday greeting
         if (instructionBlow) {
@@ -475,7 +391,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 400));
         }
 
-        // Fade out the cake SVG and reveal/play the video 2.5s after blowout
+        // Fade out the cake SVG and reveal/play the video (muted, autoplays) 2.5s after blowout
         activeTimeouts.push(setTimeout(() => {
             cakeSvgWrapper.classList.add('fade-out-cake');
             if (videoOverlay && birthdayVideo) {
@@ -485,29 +401,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 activeTimeouts.push(setTimeout(() => {
                     videoOverlay.style.opacity = '1';
                 }, 50));
-
-                // Try muted autoplay first
+                // Always muted — guaranteed autoplay on all browsers
                 birthdayVideo.muted = true;
-                birthdayVideo.play().then(() => {
-                    // Muted autoplay succeeded - show "Tap to Unmute" button overlay
-                    const playBtn = document.getElementById('video-play-btn');
-                    if (playBtn) {
-                        playBtn.style.display = 'flex';
-                        playBtn.innerHTML = '<i class="fas fa-volume-mute" style="font-size:1.8rem; color:var(--text-dark);"></i><span style="font-size:0.7rem; font-weight:700; color:var(--text-dark); margin-top:4px; text-transform:uppercase;">Unmute</span>';
-                        playBtn.style.width = '85px';
-                        playBtn.style.height = '85px';
-                    }
-                }).catch(err => {
-                    // Muted autoplay blocked, show standard play button overlay
-                    console.log("Autoplay blocked:", err);
-                    const playBtn = document.getElementById('video-play-btn');
-                    if (playBtn) {
-                        playBtn.style.display = 'flex';
-                        playBtn.innerHTML = '<i class="fas fa-play" style="font-size:1.8rem; color:var(--text-dark); margin-left:4px;"></i>';
-                        playBtn.style.width = '75px';
-                        playBtn.style.height = '75px';
-                    }
-                });
+                birthdayVideo.play().catch(err => console.log("Video play failed:", err));
             }
         }, 2500));
 
@@ -565,30 +461,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 100));
     });
 
-    // Allow clicking anywhere on the video overlay to play/pause and unmute the video
+    // Video is always muted — click the overlay to play/pause only
     if (videoOverlay && birthdayVideo) {
         videoOverlay.addEventListener('click', () => {
-            const playBtn = document.getElementById('video-play-btn');
-            
-            // If currently muted (autoplay), unmute and hide button
-            if (birthdayVideo.muted) {
-                birthdayVideo.muted = false;
-                if (playBtn) playBtn.style.display = 'none';
-                return;
-            }
-
             if (birthdayVideo.paused) {
-                birthdayVideo.play().then(() => {
-                    if (playBtn) playBtn.style.display = 'none';
-                }).catch(err => console.log("Manual play failed:", err));
+                birthdayVideo.play().catch(err => console.log("Manual play failed:", err));
             } else {
                 birthdayVideo.pause();
-                if (playBtn) {
-                    playBtn.style.display = 'flex';
-                    playBtn.innerHTML = '<i class="fas fa-play" style="font-size:1.8rem; color:var(--text-dark); margin-left:4px;"></i>';
-                    playBtn.style.width = '75px';
-                    playBtn.style.height = '75px';
-                }
             }
         });
 
