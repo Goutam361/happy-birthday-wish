@@ -485,10 +485,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 activeTimeouts.push(setTimeout(() => {
                     videoOverlay.style.opacity = '1';
                 }, 50));
-                birthdayVideo.play().catch(err => {
-                    console.log("Video autoplay failed (trying muted):", err);
-                    birthdayVideo.muted = true;
-                    birthdayVideo.play().catch(e => console.log("Muted video play failed:", e));
+
+                // Try muted autoplay first
+                birthdayVideo.muted = true;
+                birthdayVideo.play().then(() => {
+                    // Muted autoplay succeeded - show "Tap to Unmute" button overlay
+                    const playBtn = document.getElementById('video-play-btn');
+                    if (playBtn) {
+                        playBtn.style.display = 'flex';
+                        playBtn.innerHTML = '<i class="fas fa-volume-mute" style="font-size:1.8rem; color:var(--text-dark);"></i><span style="font-size:0.7rem; font-weight:700; color:var(--text-dark); margin-top:4px; text-transform:uppercase;">Unmute</span>';
+                        playBtn.style.width = '85px';
+                        playBtn.style.height = '85px';
+                    }
+                }).catch(err => {
+                    // Muted autoplay blocked, show standard play button overlay
+                    console.log("Autoplay blocked:", err);
+                    const playBtn = document.getElementById('video-play-btn');
+                    if (playBtn) {
+                        playBtn.style.display = 'flex';
+                        playBtn.innerHTML = '<i class="fas fa-play" style="font-size:1.8rem; color:var(--text-dark); margin-left:4px;"></i>';
+                        playBtn.style.width = '75px';
+                        playBtn.style.height = '75px';
+                    }
                 });
             }
         }, 2500));
@@ -529,6 +547,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         const loader = document.getElementById('video-loader');
         if (loader) loader.style.display = 'flex';
+        const playBtn = document.getElementById('video-play-btn');
+        if (playBtn) playBtn.style.display = 'none';
         cakeSvgWrapper.classList.remove('fade-out-cake');
 
         // Remove injected SVG cake (will be re-injected on next open)
@@ -548,13 +568,27 @@ document.addEventListener('DOMContentLoaded', () => {
     // Allow clicking anywhere on the video overlay to play/pause and unmute the video
     if (videoOverlay && birthdayVideo) {
         videoOverlay.addEventListener('click', () => {
-            if (birthdayVideo.paused) {
-                birthdayVideo.play().catch(err => console.log("Manual play failed:", err));
-            } else {
-                birthdayVideo.pause();
-            }
+            const playBtn = document.getElementById('video-play-btn');
+            
+            // If currently muted (autoplay), unmute and hide button
             if (birthdayVideo.muted) {
                 birthdayVideo.muted = false;
+                if (playBtn) playBtn.style.display = 'none';
+                return;
+            }
+
+            if (birthdayVideo.paused) {
+                birthdayVideo.play().then(() => {
+                    if (playBtn) playBtn.style.display = 'none';
+                }).catch(err => console.log("Manual play failed:", err));
+            } else {
+                birthdayVideo.pause();
+                if (playBtn) {
+                    playBtn.style.display = 'flex';
+                    playBtn.innerHTML = '<i class="fas fa-play" style="font-size:1.8rem; color:var(--text-dark); margin-left:4px;"></i>';
+                    playBtn.style.width = '75px';
+                    playBtn.style.height = '75px';
+                }
             }
         });
 

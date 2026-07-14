@@ -11,7 +11,7 @@
     <!-- FontAwesome for high-quality icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="styles.css?v=20">
+    <link rel="stylesheet" href="styles.css?v=22">
 </head>
 <body>
     <!-- Starry background canvas -->
@@ -110,11 +110,15 @@
                 </div>
 
                 <!-- Video Overlay (shown after candle blowout) -->
-                <div id="video-overlay" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; z-index:50; background:linear-gradient(160deg, #f2a0b3, #f7bfcc); border-radius:12px; justify-content:center; align-items:center;">
+                <div id="video-overlay" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; z-index:50; background:linear-gradient(160deg, #f2a0b3, #f7bfcc); border-radius:12px; justify-content:center; align-items:center; cursor:pointer;">
                     <!-- Loading Spinner -->
                     <div id="video-loader" style="position:absolute; display:flex; flex-direction:column; align-items:center; color:var(--text-dark); z-index:51;">
                         <i class="fas fa-spinner fa-spin" style="font-size:2rem; margin-bottom:10px;"></i>
                         <span style="font-weight:600; font-size:0.9rem;">Loading sweet moments...</span>
+                    </div>
+                    <!-- Play Button Overlay -->
+                    <div id="video-play-btn" style="position:absolute; display:none; flex-direction:column; align-items:center; justify-content:center; z-index:52; background:rgba(255,255,255,0.9); width:75px; height:75px; border-radius:50%; box-shadow:0 8px 24px rgba(74,40,52,0.2); transition:transform 0.2s ease;">
+                        <i class="fas fa-play" style="font-size:1.8rem; color:var(--text-dark); margin-left:4px;"></i>
                     </div>
                     <video id="birthday-video" style="width:100%; height:100%; object-fit:contain; border-radius:12px; opacity:0; transition:opacity 0.5s ease;" playsinline controls loop preload="auto">
                         <source src="birthday-video.mp4" type="video/mp4">
@@ -136,6 +140,6 @@
     <!-- Canvas Confetti CDN -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <!-- Script -->
-    <script src="script.js?v=20"></script>
+    <script src="script.js?v=22"></script>
 </body>
 </html>
