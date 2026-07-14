@@ -11,7 +11,7 @@
     <!-- FontAwesome for high-quality icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="styles.css?v=24">
+    <link rel="stylesheet" href="styles.css?v=26">
 </head>
 <body>
     <!-- Starry background canvas -->
@@ -107,18 +107,21 @@
                 </div>
 
             </div>
+        </div>
+    </div>
 
-            <!-- Video Overlay OUTSIDE card-inner (overflow:hidden would clip it) -->
-            <div id="video-overlay" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; z-index:100; background:linear-gradient(160deg, #f2a0b3, #f7bfcc); border-radius:12px; justify-content:center; align-items:center; cursor:pointer;">
-                <!-- Loading Spinner -->
-                <div id="video-loader" style="position:absolute; display:flex; flex-direction:column; align-items:center; color:#4a2834; z-index:101;">
-                    <i class="fas fa-spinner fa-spin" style="font-size:2rem; margin-bottom:10px;"></i>
-                    <span style="font-weight:600; font-size:0.9rem;">Loading sweet moments...</span>
-                </div>
-                <video id="birthday-video" style="width:100%; height:100%; object-fit:contain; border-radius:12px; opacity:0; transition:opacity 0.5s ease;" playsinline muted loop preload="auto">
-                    <source src="birthday-video.mp4" type="video/mp4">
-                </video>
+    <!-- Video Overlay — position:fixed floats above everything on the page -->
+    <div id="video-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; z-index:9999; background:linear-gradient(160deg,#f7bfcc,#f2a0b3); justify-content:center; align-items:center; cursor:pointer;">
+        <!-- Card-sized video frame -->
+        <div style="position:relative; width:min(360px, 88vw); height:min(640px, 88vh); background:#fff; border-radius:20px; box-shadow:0 25px 60px rgba(0,0,0,0.5); overflow:hidden; display:flex; align-items:center; justify-content:center;">
+            <!-- Loading Spinner -->
+            <div id="video-loader" style="position:absolute; display:flex; flex-direction:column; align-items:center; color:#4a2834; z-index:10000;">
+                <i class="fas fa-spinner fa-spin" style="font-size:2.5rem; margin-bottom:12px;"></i>
+                <span style="font-weight:700; font-size:1rem;">Loading video...</span>
             </div>
+            <video id="birthday-video" style="width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity 0.5s ease;" playsinline muted loop preload="auto">
+                <source src="birthday-video.mp4" type="video/mp4">
+            </video>
         </div>
     </div>
 
@@ -126,6 +129,6 @@
     <!-- Canvas Confetti CDN -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <!-- Script -->
-    <script src="script.js?v=24"></script>
+    <script src="script.js?v=26"></script>
 </body>
 </html>
