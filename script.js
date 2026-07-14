@@ -307,6 +307,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 activeTimeouts.push(setTimeout(() => {
                     velas.classList.add('lit');
 
+                    // Animate the cat peeking from behind the cake layer
+                    if (catImg) {
+                        catImg.style.opacity = '1';
+                        catImg.style.transform = 'translateX(-60%) translateY(0)';
+                    }
+
                     // Celebratory confetti burst when candles light up
                     confetti({
                         particleCount: 50,
@@ -448,8 +454,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (loader) loader.style.display = 'flex';
         const playBtn = document.getElementById('video-play-btn');
         if (playBtn) playBtn.style.display = 'none';
-        // Restore cat
-        if (catImg) catImg.style.opacity = '1';
+        // Restore cat to hidden position
+        if (catImg) {
+            catImg.style.opacity = '0';
+            catImg.style.transform = 'translateX(-60%) translateY(30px)';
+        }
         cakeSvgWrapper.classList.remove('fade-out-cake');
 
         // Remove injected SVG cake (will be re-injected on next open)

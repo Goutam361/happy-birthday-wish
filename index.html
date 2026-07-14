@@ -61,13 +61,13 @@
                             <div class="fuego"></div>
                             <div class="fuego"></div>
                         </div>
-                        <!-- Cat on the cake! -->
+                        <!-- Cat on the cake — hidden until candle lights, sits BEHIND cake SVG -->
                         <img id="cat-img" src="cat.png" alt="cat"
-                             style="position:absolute; bottom:54%; left:50%; transform:translateX(-68%);
-                                    width:38%; z-index:10; mix-blend-mode:multiply;
-                                    filter:drop-shadow(0 4px 8px rgba(0,0,0,0.15));
-                                    pointer-events:none; transition:opacity 0.8s ease;">
-                        <!-- SVG cake appended here by script.js -->
+                             style="position:absolute; bottom:48%; left:50%; transform:translateX(-60%) translateY(30px);
+                                    width:30%; z-index:0;
+                                    opacity:0; transition:opacity 0.6s ease, transform 0.6s ease;
+                                    pointer-events:none;">
+                        <!-- SVG cake appended here by script.js (stacks on top of cat due to DOM order) -->
                     </div>
                 </div>
 
