@@ -521,11 +521,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (birthdayVideo) {
             birthdayVideo.pause();
             birthdayVideo.currentTime = 0;
+            birthdayVideo.style.opacity = '0';
         }
         if (videoOverlay) {
             videoOverlay.style.display = 'none';
             videoOverlay.style.opacity = '0';
         }
+        const loader = document.getElementById('video-loader');
+        if (loader) loader.style.display = 'flex';
         cakeSvgWrapper.classList.remove('fade-out-cake');
 
         // Remove injected SVG cake (will be re-injected on next open)
@@ -553,6 +556,19 @@ document.addEventListener('DOMContentLoaded', () => {
             if (birthdayVideo.muted) {
                 birthdayVideo.muted = false;
             }
+        });
+
+        // Hide loader and fade in video once it actually plays
+        birthdayVideo.addEventListener('playing', () => {
+            const loader = document.getElementById('video-loader');
+            if (loader) loader.style.display = 'none';
+            birthdayVideo.style.opacity = '1';
+        });
+
+        // Show loader if the video buffers
+        birthdayVideo.addEventListener('waiting', () => {
+            const loader = document.getElementById('video-loader');
+            if (loader) loader.style.display = 'flex';
         });
     }
 });
